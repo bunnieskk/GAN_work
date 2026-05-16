@@ -229,3 +229,27 @@ Please note that the exact results may vary from run to run due to the non-deter
 ## Acknowledgements
 
 We thank Jaakko Lehtinen, David Luebke, and Tuomas Kynk&auml;&auml;nniemi for in-depth discussions and helpful comments; Janne Hellsten, Tero Kuosmanen, and Pekka J&auml;nis for compute infrastructure and help with the code release.
+
+## Real photo inversion (new)
+
+This repository now includes `invert_image.py` to invert a real photo into StyleGAN latent space (`W` or `W+`) by optimization.
+
+### Quick start
+
+1. Put your photo under `input/` (for example `input/my_photo.jpg`).
+2. Run inversion:
+
+```bash
+python invert_image.py --input input/my_photo.jpg --space wplus --steps 400
+```
+
+Outputs:
+- Reconstructed image: `results/inversion/<name>_recon.png`
+- Latent code: `results/inversion/<name>_wplus.npy` (or `_w.npy`)
+
+### Environment compatibility notes
+
+- This codebase is TensorFlow 1.x style and was originally tested with Python 3.6 + TF 1.10+ GPU.
+- Newer Python / TensorFlow 2.x environments may fail unless you provide TF1 compatibility.
+- If your CUDA/cuDNN version is newer than TF1 supports, use a dedicated conda env or Docker with compatible versions.
+- The script uses pixel MSE + latent regularization. For better perceptual quality, add LPIPS/perceptual loss if your environment has the required models.
